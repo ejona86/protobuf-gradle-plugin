@@ -37,6 +37,7 @@ import org.gradle.api.tasks.SourceSet
 import org.gradle.plugins.ide.idea.GenerateIdeaModule
 import org.gradle.plugins.ide.idea.model.IdeaModel
 import org.gradle.util.GUtil
+import org.stringtemplate.v4.ST
 
 import java.util.regex.Matcher
 
@@ -153,5 +154,29 @@ class Utils {
       throw new GradleException("Failed to parse version \"${version}\"")
     }
     return matcher
+  }
+
+  /**
+   *
+   * For each variant, agp creates a unique source set.
+   * The variant does not have a property to get a unique source set.
+   * For that reason, map the variant name to the source set name to find a unique source set.
+   *
+   * Patterns (variant -> sourceSet):
+   * <FLAVOUR><BUILD_TYPE> -> <FLAVOUR><BUILD_TYPE>
+   * <FLAVOUR><BUILD_TYPE>UnitTest -> test<FLAVOUR><BUILD_TYPE>
+   * <FLAVOUR><BUILD_TYPE>AndroidTest -> androidTest<FLAVOUR><BUILD_TYPE>
+   *
+   * @param variantName
+   * @return
+   */
+  static String variantNameToSourceSetName(final String variantName) {
+    if (variantName.endsWith("UnitTest")) {
+      return "test${variantName.capitalize()}"
+    } else if (variantName.endsWith("AndroidTest")) {
+      return "androidTest${variantName.capitalize()}"
+    } else {
+      return variantName
+    }
   }
 }
