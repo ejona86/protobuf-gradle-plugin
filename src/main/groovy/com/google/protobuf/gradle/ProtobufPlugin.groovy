@@ -56,6 +56,7 @@ import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.util.GradleVersion
 import javax.inject.Inject
 
@@ -292,7 +293,7 @@ class ProtobufPlugin implements Plugin<Project> {
      * for; for Android it's the collection of sourceSets that the variant includes.
      */
     @PackageScope
-    Provider<GenerateProtoTask> addGenerateProtoTask(
+    TaskProvider<GenerateProtoTask> addGenerateProtoTask(
         ProtoSourceSet protoSourceSet,
         Action<GenerateProtoTask> configureAction
     ) {
