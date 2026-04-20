@@ -57,6 +57,7 @@ import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskAction
 import org.gradle.util.GradleVersion
+import org.gradle.work.DisableCachingByDefault
 import javax.inject.Inject
 
 /**
@@ -375,6 +376,7 @@ class ProtobufPlugin implements Plugin<Project> {
       return "${project.buildDir}/extracted-protos/${sourceSetName}"
     }
 
+    @DisableCachingByDefault(because="Just copies files")
     @PackageScope
     abstract static class ProtoSyncTask extends DefaultTask {
       @Inject abstract FileSystemOperations getFileSystem()
